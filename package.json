@@ -16,6 +16,10 @@
       {
         "command": "fast-code.enterComponentDefination",
         "title": "Enter component defination (active line && Command + E)"
+      },
+      {
+        "command": "fast-code.convertColor",
+        "title": "Convert color (active line && Command + Shift + C)"
       }
     ],
     "keybindings": [
@@ -24,6 +28,12 @@
         "key": "ctrl+e",
         "mac": "cmd+e",
         "when": "editorTextFocus && editorLangId == 'vue'"
+      },
+      {
+        "command": "fast-code.convertColor",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c",
+        "when": "editorTextFocus"
       }
     ]
   },

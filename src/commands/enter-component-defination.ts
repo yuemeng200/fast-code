@@ -1,22 +1,6 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
-
-function log(text: string) {
-  if (process.env.NODE_ENV === 'development') {
-    vscode.window.showInformationMessage(text)
-  }
-}
-
-// 将 kebab-case 转换为 PascalCase
-function formatComponentName(componentName: string) {
-  return componentName.replace(/-(\w)/g, function (_, letter) {
-    return letter.toUpperCase()
-  })
-}
-
-function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
+import { log, kebabToPascal, capitalize } from '../utils/common'
 
 // 从文本中查找组件 import 的相对路径
 function findImportRelativePath(fileText: string, componentName: string) {
@@ -34,7 +18,7 @@ function findImportRelativePath(fileText: string, componentName: string) {
 export default async () => {
   let editor = vscode.window.activeTextEditor
   if (!editor) {
-    vscode.window.showErrorMessage('No active text editor')
+    log('No active text editor')
     return
   }
   const activeDocument = editor.document
@@ -46,7 +30,7 @@ export default async () => {
     log('No match found')
     return
   }
-  const componentName = formatComponentName(tagNameMatch[1])
+  const componentName = kebabToPascal(tagNameMatch[1])
 
   const fileText = activeDocument.getText()
   const RelativePath = findImportRelativePath(fileText, componentName)
