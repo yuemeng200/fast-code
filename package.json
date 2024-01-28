@@ -1,7 +1,7 @@
 {
   "name": "fast-code",
   "displayName": "fast-code",
-  "description": "faaaaast",
+  "description": "🚀 Accelerate the coding process ",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.85.0"
@@ -9,6 +9,7 @@
   "categories": [
     "Other"
   ],
+  "publisher": "amonduul",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
@@ -46,7 +47,8 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -62,7 +64,5 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "vsce": "^2.15.0"
-  },
-  "dependencies": {
   }
 }
