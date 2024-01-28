@@ -14,16 +14,16 @@
   "contributes": {
     "commands": [
       {
-        "command": "fast-code.helloWorld",
-        "title": "Hello World"
+        "command": "fast-code.enterComponentDefination",
+        "title": "Enter component defination (active line && Command + E)"
       }
     ],
     "keybindings": [
       {
-        "command": "fast-code.helloWorld",
+        "command": "fast-code.enterComponentDefination",
         "key": "ctrl+e",
         "mac": "cmd+e",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && editorLangId == 'vue'"
       }
     ]
   },
