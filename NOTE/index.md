@@ -12,3 +12,8 @@
 使用 `添加文件夹` 而不是打开文件夹。
 
 > TODO: 可配置 debug directory
+
+## Reference
+
+[发布流程](https://juejin.cn/post/7066422674389467144?searchId=2024012816024949A2669EC903E13AC836#heading-7)
+[manage extensions](https://marketplace.visualstudio.com/manage/publishers/amonduul?auth_redirect=True)
