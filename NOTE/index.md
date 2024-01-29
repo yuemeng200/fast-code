@@ -13,6 +13,10 @@
 
 > TODO: 可配置 debug directory
 
+### 无法 publish
+
+https://stackoverflow.com/questions/59798905/vsce-publish-fails-vs-code-extension-using-pnpm-yarn
+
 ## Reference
 
 [发布流程](https://juejin.cn/post/7066422674389467144?searchId=2024012816024949A2669EC903E13AC836#heading-7)
