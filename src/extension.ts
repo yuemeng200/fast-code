@@ -1,8 +1,10 @@
 import * as vscode from 'vscode'
 import enterComponentDefination from './commands/enter-component-defination'
 import convertColor from './commands/convert-color'
+import { log } from './utils/common'
 
 export function activate(context: vscode.ExtensionContext) {
+  log("🚀")
   const commands = [
     {
       name: 'fast-code.enterComponentDefination',

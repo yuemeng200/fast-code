@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cpt-header></cpt-header>
+    <cpt-header name="123"></cpt-header>
   </div>
 </template>
 

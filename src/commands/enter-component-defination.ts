@@ -24,7 +24,7 @@ export default async () => {
   const activeDocument = editor.document
   const lineNumber = editor.selection.active.line
   const lineText = activeDocument.lineAt(lineNumber).text
-  const tagNameRegex = /<([^>]+)>/
+  const tagNameRegex = /<([A-Za-z0-9-]+)[^>]*>/
   const tagNameMatch = lineText.match(tagNameRegex)
   if (!tagNameMatch) {
     log('No match found')
