@@ -15,6 +15,7 @@ fast anything!!!
 
 - Jump the file path of alias
 - Jump the defination of methods and others inside script scoped
+- Hover to show components props
 
 ### minor
 

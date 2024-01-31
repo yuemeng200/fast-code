@@ -24,3 +24,4 @@ https://stackoverflow.com/questions/59798905/vsce-publish-fails-vs-code-extensio
 [manage extensions](https://marketplace.visualstudio.com/manage/publishers/amonduul?auth_redirect=True)
 
 [extension samples](https://github.com/microsoft/vscode-extension-samples/tree/main)
+[VS Code API](https://code.visualstudio.com/api/references/vscode-api)
