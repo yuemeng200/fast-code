@@ -1,10 +1,21 @@
-# fast-code README
+# FAST-CODE
 
 fast anything!!!
 
 ## Features
 
-- fast enter component through focus tag line
-- fast convert color mode between hex and rgb
+- Enter the component content: Focus line and `Command + E`
+- Convert color mode between hex and rgb: Focus line and `Command + Shift + C`
 
 **Enjoy!**
+
+## TODO
+
+### prior
+
+- Jump the file path of alias
+- Jump the defination of methods and others inside script scoped
+
+### minor
+
+- Preview vue components，supporting transmit props to test
