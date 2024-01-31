@@ -1,9 +1,10 @@
 import * as vscode from 'vscode'
 
-export function log(text: string) {
-  if (process.env.NODE_ENV === 'development') {
-    vscode.window.showInformationMessage(text)
-  }
+export function log(text: any) {
+  // FIX
+  const activeDebugConsole = vscode.debug.activeDebugConsole
+  
+  vscode.window.showInformationMessage(JSON.stringify(text))
 }
 
 export function kebabToPascal(componentName: string) {

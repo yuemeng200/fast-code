@@ -13,4 +13,3 @@
 <style lang="less" scoped>
 
 </style>
-#078347
