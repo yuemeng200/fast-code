@@ -1,13 +1,13 @@
 <template>
   <div>
-    <cpt-header>
+    <cpt-header name="123">
     </cpt-header>
   </div>
 </template>
 
 <script>
 
-import CptHeader from './cpt-header.vue'
+import CptHeader from '@/components/cpt-header.vue'
 export default {
   data() {
     return {

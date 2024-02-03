@@ -4,7 +4,8 @@ fast anything!!!
 
 ## Features
 
-- Enter the component content: Focus line and `Command + E`
+- Enter the component content: Focus line and `Command`
+- Enter the alias path: Focus line and `Command`
 - Convert color mode between hex and rgb: Focus line and `Command + Shift + C`
 
 **Enjoy!**
@@ -13,8 +14,6 @@ fast anything!!!
 
 ### prior
 
-- Jump the file path of alias
-- Jump the defination of methods and others inside script scoped
 - Hover to show components props
 
 ### minor

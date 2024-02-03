@@ -2,7 +2,7 @@
   "name": "fast-code",
   "displayName": "fast-code",
   "description": "🚀 Accelerate the coding process ",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -15,7 +15,9 @@
     "url": "https://github.com/yuemeng200/fast-code"
   },
   "publisher": "amonduul",
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -56,6 +58,7 @@
     "publish": "vsce publish --no-dependencies"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
     "@types/vscode": "^1.85.0",
@@ -69,5 +72,8 @@
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0"
   }
 }

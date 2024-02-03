@@ -18,7 +18,6 @@ function findImportRelativePath(fileText: string, componentName: string) {
 export default async () => {
   let editor = vscode.window.activeTextEditor
   if (!editor) {
-    log('No active text editor')
     return
   }
   const activeDocument = editor.document
@@ -27,14 +26,12 @@ export default async () => {
   const tagNameRegex = /<([A-Za-z0-9-]+)[^>]*>/
   const tagNameMatch = lineText.match(tagNameRegex)
   if (!tagNameMatch) {
-    log('No match found')
     return
   }
   const componentName = kebabToPascal(tagNameMatch[1])
 
   const fileText = activeDocument.getText()
   const RelativePath = findImportRelativePath(fileText, componentName)
-  log(RelativePath)
   if (RelativePath) {
     const activeDocumentPath = activeDocument.uri.fsPath
     const targetPath = path.resolve(
@@ -44,6 +41,5 @@ export default async () => {
     const targetDocument = await vscode.workspace.openTextDocument(targetPath)
     await vscode.window.showTextDocument(targetDocument)
   } else {
-    log('Component not found')
   }
 }

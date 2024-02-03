@@ -39,7 +39,6 @@ export default async () => {
       return `rgb(${r}, ${g}, ${b})`
     })
   } else {
-    log('no color found')
     return
   }
 
