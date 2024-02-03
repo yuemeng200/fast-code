@@ -3,7 +3,10 @@ import * as vscode from 'vscode'
 export function log(text: any) {
   // FIX
   const activeDebugConsole = vscode.debug.activeDebugConsole
-  
+  vscode.window.showInformationMessage(JSON.stringify(text))
+}
+
+export function tip(text: any) {
   vscode.window.showInformationMessage(JSON.stringify(text))
 }
 
