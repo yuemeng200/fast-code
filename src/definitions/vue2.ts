@@ -1,90 +1,29 @@
 import * as vscode from 'vscode'
 import * as fs from 'fs-extra'
 import path from 'path'
-import { log, kebabToPascal, capitalize } from '../utils/common'
-
-// 从文本中查找组件 import 的相对路径
-function findImportRelativePath(fileFullText: string, componentName: string) {
-  // fix regex to support the uppercase componentName both
-  const regex = `import\\s+(?:${componentName}|${capitalize(
-    componentName
-  )})\\s+from\\s+['"](.*)['"]`
-  const match = fileFullText.match(regex)
-  if (match) {
-    return match[1]
-  }
-  return ''
-}
-
-async function openRelativePath(
-  relativePath: string,
-  document: vscode.TextDocument = vscode.window.activeTextEditor
-    ?.document as vscode.TextDocument
-) {
-  let targetPath = vscode.workspace.rootPath + '/' + relativePath
-  // if no exitname
-  const dirname = path.dirname(targetPath)
-  const extname = path.extname(targetPath)
-  if (!fs.existsSync(targetPath) && !extname) {
-    for (let file of fs.readdirSync(dirname)) {
-      if (file.split('.')[0] == (targetPath.split('/').pop() as string)) {
-        targetPath = targetPath + path.extname(file)
-        break
-      }
-    }
-  }
-  if (!fs.existsSync(targetPath)) {
-    return
-  }
-  const targetDocument = await vscode.workspace.openTextDocument(targetPath)
-  await vscode.window.showTextDocument(targetDocument)
-}
+import { log, kebabToPascal, capitalize, getFileRange } from '../utils/common'
+import { findComponentTargetPath } from '../utils/file'
+import { Position, TextDocument, CancellationToken, Uri, Definition } from 'vscode'
 
 const provide: vscode.DefinitionProvider = {
-  async provideDefinition(document, position, token) {
-    const lineNumber = position.line
-    const lineText = document.lineAt(lineNumber).text
-    const tagNameRegex = /<([A-Za-z0-9-]+)[^>]*>/
-    const tagNameMatch = lineText.match(tagNameRegex)
-    const word = document.getText(document.getWordRangeAtPosition(position))
-    const fileFullText = document.getText()
-    // componnet tag
-    if (tagNameMatch) {
-      const componentName = kebabToPascal(word)
-      const relativePath = findImportRelativePath(fileFullText, componentName)
-      if (relativePath) {
-        openRelativePath(relativePath)
-      } else {
-      }
-      return null
-    }
+  async provideDefinition(
+    document: TextDocument,
+    position: Position,
+    token: CancellationToken
+  ): Promise<
+    Definition | DefinitionLink[] | LocationLink[] | null | undefined
+  > {
 
-    // import alias
-    const importAliasMatch = lineText.match(
-      /import[\s\S]*?from\s*?'(([^.\dA-Za-z\/][\dA-Za-z]*)\/.*)'/
-    )
-    if (importAliasMatch && importAliasMatch[1] && importAliasMatch[2]) {
-      const rawPath = importAliasMatch[1]
-      const alias = importAliasMatch[2] as keyof typeof strategy
-      // TEST
-      const strategy = {
-        '@': 'src',
-        _lib: 'src/common',
-        _com: 'src/components',
-        _style: 'src/assets/style',
-        _api: 'src/api',
-      }
-      if (!strategy[alias]) {
-        return null
-      }
-      // relativePath is relative the root path
-
-      const relativePath = rawPath.replace(alias, strategy[alias])
-      if (relativePath) {
-        openRelativePath(relativePath)
-      }
+    const targetPath = await findComponentTargetPath(document, position)
+    const targetUri = Uri.file(targetPath)
+    const targetRange = await getFileRange(targetUri.fsPath) // 设置 peeked editor 显示的文件内容范围
+    const definitionLink: DefinitionLink = {
+      originSelectionRange: document.getWordRangeAtPosition(position)!,
+      targetUri,
+      targetRange,
     }
-    return null
+    // FIX 会显示多个definition
+    return [definitionLink]
   },
 }
 

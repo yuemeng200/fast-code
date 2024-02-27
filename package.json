@@ -16,7 +16,8 @@
   },
   "publisher": "amonduul",
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onLanguage:vue"
   ],
   "main": "./dist/extension.js",
   "contributes": {
