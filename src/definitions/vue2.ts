@@ -1,8 +1,5 @@
 import * as vscode from 'vscode'
-import * as fs from 'fs-extra'
-import path from 'path'
-import { log, kebabToPascal, capitalize, getFileRange } from '../utils/common'
-import { findComponentTargetPath } from '../utils/file'
+import { findComponentTargetPath, getFileRange } from '../utils/file'
 import { Position, TextDocument, CancellationToken, Uri, Definition } from 'vscode'
 
 const provide: vscode.DefinitionProvider = {
@@ -15,6 +12,9 @@ const provide: vscode.DefinitionProvider = {
   > {
 
     const targetPath = await findComponentTargetPath(document, position)
+    if (!targetPath) {
+      return
+    }
     const targetUri = Uri.file(targetPath)
     const targetRange = await getFileRange(targetUri.fsPath) // 设置 peeked editor 显示的文件内容范围
     const definitionLink: DefinitionLink = {

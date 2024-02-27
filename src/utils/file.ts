@@ -19,7 +19,7 @@ function findImportPathString(
   }
 }
 
-export async function getFileRange(filePath: string) {
+async function getFileRange(filePath: string) {
   const textContent = await readFile(filePath, 'utf8')
   const lines = textContent.split(/\r?\n/)
   const lastLine = lines.at(-1)
@@ -85,7 +85,7 @@ async function resolveAliasPath(aliasPath: string) {
 async function findComponentTargetPath(
   document: vscode.TextDocument,
   position: vscode.Position
-) {
+): Promise<string | undefined>{
   const lineNumber = position.line
   const lineText = document.lineAt(lineNumber).text
   const tagNameRegex = /<([A-Za-z0-9-]+)[^>]*>/
@@ -119,10 +119,7 @@ async function findComponentTargetPath(
 }
 
 export {
-  findImportPathString,
-  isAliasPath,
-  NATIVE_TAGS,
-  resolveAliasPath,
-  openTargetPathDocument,
   findComponentTargetPath,
+  getFileRange,
+  openTargetPathDocument,
 }
