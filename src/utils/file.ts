@@ -88,7 +88,7 @@ async function findComponentTargetPath(
 ): Promise<string | undefined>{
   const lineNumber = position.line
   const lineText = document.lineAt(lineNumber).text
-  const tagNameRegex = /<([A-Za-z0-9-]+)[^>]*>/
+  const tagNameRegex = /<([A-Za-z0-9-]+)[>\s\n].*/
   const tagNameMatch = lineText.match(tagNameRegex)
   if (!tagNameMatch) {
     return
