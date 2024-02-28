@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { findComponentTargetPath, getFileRange } from '../utils/file'
-import { Position, TextDocument, CancellationToken, Uri, Definition } from 'vscode'
+import { Position, TextDocument, CancellationToken, Uri, Definition, DefinitionLink, LocationLink } from 'vscode'
 
 const provide: vscode.DefinitionProvider = {
   async provideDefinition(
