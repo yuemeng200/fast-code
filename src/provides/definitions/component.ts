@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { findComponentTargetPath, getFileRange } from '../utils/file'
+import { findComponentTargetPath, getFileRange } from '../../utils/file'
 import { Position, TextDocument, CancellationToken, Uri, Definition, DefinitionLink, LocationLink } from 'vscode'
 
 const provide: vscode.DefinitionProvider = {
@@ -27,6 +27,6 @@ const provide: vscode.DefinitionProvider = {
   },
 }
 
-export default function vueDefinitionProvider() {
+export default function componentDefinitionProvider() {
   return vscode.languages.registerDefinitionProvider('vue', provide)
 }

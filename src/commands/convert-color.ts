@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
-import { log, kebabToPascal, capitalize } from '../utils/common'
 
-export default async () => {
+
+const handler = async () => {
   let editor = vscode.window.activeTextEditor
   if (!editor) {
     vscode.window.showErrorMessage('No active text editor')
@@ -47,4 +47,9 @@ export default async () => {
     const range = activeDocument.lineAt(lineNumber).range
     editBuilder.replace(range, convertedText)
   })
+}
+
+export default {
+  name: 'fast-code.convertColor',
+  handler: handler,
 }

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { findComponentTargetPath, openTargetPathDocument } from '../utils/file'
 
-export default async () => {
+const handler = async () => {
   let editor = vscode.window.activeTextEditor
   if (!editor) {
     return
@@ -15,3 +15,7 @@ export default async () => {
   openTargetPathDocument(targetPath)
 }
 
+export default {
+  name: 'fast-code.enterComponentDefination',
+  handler,
+}
