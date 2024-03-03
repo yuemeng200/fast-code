@@ -1,8 +1,8 @@
 {
   "name": "fast-code",
   "displayName": "fast-code",
-  "description": "🚀 Accelerate the coding process ",
-  "version": "0.1.6",
+  "description": "🚀",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -10,10 +10,6 @@
     "Programming Languages"
   ],
   "icon": "static/img/logo.png",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yuemeng200/fast-code"
-  },
   "publisher": "amonduul",
   "activationEvents": [
     "onStartupFinished",
@@ -24,11 +20,11 @@
     "commands": [
       {
         "command": "fast-code.enterComponentDefination",
-        "title": "Enter component defination (active line && Command + E)"
+        "title": "Enter component defination (Focus the component line -> Command + E)"
       },
       {
         "command": "fast-code.convertColor",
-        "title": "Convert color (active line && Command + Shift + C)"
+        "title": "Convert color (Focus the color line && Command + Shift + C)"
       }
     ],
     "keybindings": [
