@@ -1,107 +1,27 @@
-/*
- *                                |~~~~~~~|
- *                                |       |
- *                                |       |
- *                                |       |
- *                                |       |
- *                                |       |
- *     |~.\\\_\~~~~~~~~~~~~~~xx~~~         ~~~~~~~~~~~~~~~~~~~~~/_//;~|
- *     |  \  o \_         ,XXXXX),                         _..-~ o /  |
- *     |    ~~\  ~-.     XXXXX`)))),                 _.--~~   .-~~~   |
- *      ~~~~~~~`\   ~\~~~XXX' _/ ';))     |~~~~~~..-~     _.-~ ~~~~~~~
- *               `\   ~~--`_\~\, ;;;\)__.---.~~~      _.-~
- *                 ~-.       `:;;/;; \          _..-~~
- *                    ~-._      `''        /-~-~
- *                        `\              /  /
- *                          |         ,   | |
- *                           |  '        /  |
- *                            \/;          |
- *                             ;;          |
- *                             `;   .       |
- *                             |~~~-----.....|
- *                            | \             \
- *                           | /\~~--...__    |
- *                           (|  `\       __-\|
- *                           ||    \_   /~    |
- *                           |)     \~-'      |
- *                            |      | \      '
- *                            |      |  \    :
- *                             \     |  |    |
- *                              |    )  (    )
- *                               \  /;  /\  |
- *                               |    |/   |
- *                               |    |   |
- *                                \  .'  ||
- *                                |  |  | |
- *                                (  | |  |
- *                                |   \ \ |
- *                                || o `.)|
- *                                |`\\) |
- *                                |       |
- *                                |       |
- */
-
-/*
- * 
- *    ┏┓　　　┏┓
- *  ┏┛┻━━━┛┻┓
- *  ┃　　　　　　　┃
- *  ┃　　　━　　　┃
- *  ┃　＞　　　＜　┃
- *  ┃　　　　　　　┃
- *  ┃...　⌒　...　┃
- *  ┃　　　　　　　┃
- *  ┗━┓　　　┏━┛
- *      ┃　　　┃　
- *      ┃　　　┃
- *      ┃　　　┃
- *      ┃　　　┃  神兽保佑
- *      ┃　　　┃  代码无bug　　
- *      ┃　　　┃
- *      ┃　　　┗━━━┓
- *      ┃　　　　　　　┣┓
- *      ┃　　　　　　　┏┛
- *      ┗┓┓┏━┳┓┏┛
- *        ┃┫┫　┃┫┫
- *        ┗┻┛　┗┻┛
- */
-
-/*
- * _______________#########_______________________ 
- * ______________############_____________________ 
- * ______________#############____________________ 
- * _____________##__###########___________________ 
- * ____________###__######_#####__________________ 
- * ____________###_#######___####_________________ 
- * ___________###__##########_####________________ 
- * __________####__###########_####_______________ 
- * ________#####___###########__#####_____________ 
- * _______######___###_########___#####___________ 
- * _______#####___###___########___######_________ 
- * ______######___###__###########___######_______ 
- * _____######___####_##############__######______ 
- * ____#######__#####################_#######_____ 
- * ____#######__##############################____ 
- * ___#######__######_#################_#######___ 
- * ___#######__######_######_#########___######___ 
- * ___#######____##__######___######_____######___ 
- * ___#######________######____#####_____#####____ 
- * ____######________#####_____#####_____####_____ 
- * _____#####________####______#####_____###______ 
- * ______#####______;###________###______#________ 
- * ________##_______####________####______________ 
- */
-
 import path from 'path'
 import { readFile } from 'fs/promises'
 import * as vscode from 'vscode'
-import * as fs from 'fs-extra'
-
+import fs from 'fs-extra'
 import { capitalize, kebabToPascal } from './common'
 
-const NATIVE_TAGS = ['div', 'span', 'table', 'a', 'input']
+const NATIVE_TAGS = [
+  'div',
+  'span',
+  'table',
+  'a',
+  'input',
+  'button',
+  'img',
+  'ul',
+  'li',
+]
 
-// INFO 返回 import 语句 的 pathString
+/**
+ * Find the import path string of full text
+ * @param fileFullText
+ * @param variable
+ * @returns
+ */
 function findImportPathString(
   fileFullText: string,
   variable: string
@@ -113,6 +33,11 @@ function findImportPathString(
   }
 }
 
+/**
+ * Get the range of the file
+ * @param filePath
+ * @returns
+ */
 async function getFileRange(filePath: string) {
   const textContent = await readFile(filePath, 'utf8')
   const lines = textContent.split(/\r?\n/)
@@ -126,20 +51,33 @@ async function getFileRange(filePath: string) {
   )
 }
 
-// INFO 判断是否是别名路径
+/**
+ * Check whether it is an alias path
+ * @param targetPath
+ * @returns
+ */
 function isAliasPath(targetPath: string): boolean {
   return targetPath.startsWith('_')
 }
 
-// INFO 打开目标文件
-async function openTargetPathDocument(targetPath: string) {
+/**
+ * Open the target path document
+ * @param targetPath
+ */
+async function openTargetPathDocument(targetPath: string): Promise<void> {
   console.log('🚀 ~ openTargetPathDocument ~ targetPath:', targetPath)
   const targetDocument = await vscode.workspace.openTextDocument(targetPath)
   await vscode.window.showTextDocument(targetDocument)
 }
 
-// INFO 返回别名的真实路径
-async function resolveAliasPath(aliasPath: string) {
+/**
+ * Resolve the target path of an alias path
+ * @param aliasPath
+ * @returns The real path of the alias path
+ */
+async function resolveAliasPath(
+  aliasPath: string
+): Promise<string | undefined> {
   const jsconfigPath = vscode.workspace.rootPath
     ? path.join(vscode.workspace.rootPath, 'jsconfig.json')
     : undefined
@@ -163,13 +101,7 @@ async function resolveAliasPath(aliasPath: string) {
         tagetKey,
         aliasPath.replace(aliaskey, '')
       )
-      console.log('🚀 alias -> realPath:', realPath)
-      if (!fs.existsSync(realPath)) {
-        vscode.window.showErrorMessage(`File not found for alias: ${aliasPath}`)
-        return
-      } else {
-        return realPath
-      }
+      return realPath
     }
   }
   vscode.window.showErrorMessage(`Alias not found: ${aliasPath}`)
@@ -177,15 +109,15 @@ async function resolveAliasPath(aliasPath: string) {
 }
 
 /**
- * 
- * @param document 
- * @param position 
- * @returns the targetPath of the component
+ * Find the target path of the component element
+ * @param document
+ * @param position
+ * @returns
  */
 async function findComponentTargetPath(
   document: vscode.TextDocument,
   position: vscode.Position
-): Promise<string | undefined>{
+): Promise<string | undefined> {
   const lineNumber = position.line
   const lineText = document.lineAt(lineNumber).text
   const tagNameRegex = /<([A-Za-z0-9-]+)[>\s\n].*/
@@ -221,8 +153,4 @@ async function findComponentTargetPath(
   }
 }
 
-export {
-  findComponentTargetPath,
-  getFileRange,
-  openTargetPathDocument,
-}
+export { findComponentTargetPath, getFileRange, openTargetPathDocument }
