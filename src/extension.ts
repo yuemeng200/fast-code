@@ -1,10 +1,13 @@
 import * as vscode from 'vscode'
 import { log } from './utils/common'
+
 import enterComponentDefinationCommand from './commands/enter-component-defination'
 import convertColorCommand from './commands/convert-color'
 
 import componentDefinitionProvider from './provides/definitions/component'
 import componentPropsHoverProvider from './provides/hovers/component'
+
+import componentCompletionProvider from './provides/completions/component'
 
 
 export function activate(context: vscode.ExtensionContext) {
@@ -15,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand(name, handler))
   })
 
-  const provides = [componentDefinitionProvider(), componentPropsHoverProvider()]
+  const provides = [componentDefinitionProvider(), componentPropsHoverProvider(), componentCompletionProvider()]
   context.subscriptions.push(...provides)
 }
 

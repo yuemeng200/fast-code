@@ -1,5 +1,9 @@
 {
 	"compilerOptions": {
+		"baseUrl": "./src",
+    "paths": {
+      "@utils/*": ["utils/*"]
+    },
 		"module": "Node16",
 		"target": "ES2022",
 		"lib": [

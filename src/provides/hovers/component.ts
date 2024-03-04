@@ -12,7 +12,7 @@ import babelGenerate from '@babel/generator'
  * @param targetPath
  * @returns
  */
-function getPropsFromSFC(targetPath: string): Record<string, Object> {
+function getPropsFromSFC(targetPath: string): Record<string, Object> | undefined {
   const targetFileContent = fs.readFileSync(targetPath, 'utf-8')
 
   // INFO Get script content
@@ -26,7 +26,7 @@ function getPropsFromSFC(targetPath: string): Record<string, Object> {
   )?.[1]
 
   if (!scriptContent) {
-    return
+    return undefined
   }
 
   const ast = babelParse(scriptContent, {
