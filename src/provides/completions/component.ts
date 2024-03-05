@@ -175,7 +175,6 @@ const provider: vscode.CompletionItemProvider = {
     //   /^(\s*)(\S+),(\s*)$/,
     //   (_, $1, $2, $3) => `${$1}<${$2}/>${$3}`
     // )
-    // console.log('🚀 ~ replaceLine:', replaceLine)
 
     completionItems.push(completionItem)
     return completionItems

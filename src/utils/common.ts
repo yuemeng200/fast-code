@@ -1,10 +1,6 @@
 import * as vscode from 'vscode'
 
-export function log(text: any) {
-  vscode.window.showInformationMessage(JSON.stringify(text))
-}
-
-export function tip(text: any) {
+export function showInformationMessage(text: any) {
   vscode.window.showInformationMessage(JSON.stringify(text))
 }
 

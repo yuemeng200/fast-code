@@ -65,7 +65,6 @@ function isAliasPath(targetPath: string): boolean {
  * @param targetPath
  */
 async function openTargetPathDocument(targetPath: string): Promise<void> {
-  console.log('🚀 ~ openTargetPathDocument ~ targetPath:', targetPath)
   const targetDocument = await vscode.workspace.openTextDocument(targetPath)
   await vscode.window.showTextDocument(targetDocument)
 }
