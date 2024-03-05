@@ -1,33 +1,27 @@
-import * as vscode from 'vscode'
-import { findComponentTargetPath } from '../../utils/file'
 import fs from 'fs'
-// import { parse as vueParse } from '@vue/compiler-sfc'
-
+import * as vscode from 'vscode'
+import { parse as vueParse } from '@vue/compiler-sfc'
 import { parse as babelParse } from '@babel/parser'
 import traverse from '@babel/traverse'
 import babelGenerate from '@babel/generator'
+import { findComponentTargetPath } from '../../utils/file'
 
 /**
- * Get props from SFC
+ * Get props information from Vue SFC file
  * @param targetPath
  * @returns
  */
-function getPropsFromSFC(targetPath: string): Record<string, Object> | undefined {
+function getPropsFromSFC(
+  targetPath: string
+): Record<string, Object> | undefined {
   const targetFileContent = fs.readFileSync(targetPath, 'utf-8')
 
-  // INFO Get script content
-  // const { descriptor } = vueParse(targetFileContent)
-  // if (!descriptor.script) {
-  //   return
-  // }
-  // const scriptContent = descriptor.script.content
-  const scriptContent = targetFileContent.match(
-    /<script>([\s\S]+)<\/script>/
-  )?.[1]
-
-  if (!scriptContent) {
-    return undefined
+  const parseResult = vueParse(targetFileContent)
+  const { script } = parseResult.descriptor
+  if (!script) {
+    return
   }
+  const scriptContent = script.content
 
   const ast = babelParse(scriptContent, {
     sourceType: 'module',
@@ -46,11 +40,9 @@ function getPropsFromSFC(targetPath: string): Record<string, Object> | undefined
           prop.key.type === 'Identifier' &&
           prop.key.name === 'props'
         ) {
-          // props option
           const propsNode = prop.value
           if (propsNode.type === 'ObjectExpression') {
             for (let j = 0; j < propsNode.properties.length; j++) {
-              // prop
               const propNode = propsNode.properties[j]
               if (
                 propNode.type === 'ObjectProperty' &&
@@ -102,7 +94,7 @@ const provide: vscode.HoverProvider = {
       const propInfo = componentProps[propName] as Record<string, string>
       hoverText.appendMarkdown(`\`${propName}\`\n`)
       Object.keys(propInfo).forEach(key => {
-        hoverText.appendMarkdown(`- ${key}: ${propInfo[key]}\n`)
+        hoverText.appendMarkdown(`- ${key}: **${propInfo[key]}**\n`)
       })
       hoverText.appendMarkdown('\n')
     }
