@@ -16,12 +16,20 @@ function getPropsFromSFC(
 ): Record<string, Object> | undefined {
   const targetFileContent = fs.readFileSync(targetPath, 'utf-8')
 
-  const parseResult = vueParse(targetFileContent)
-  const { script } = parseResult.descriptor
-  if (!script) {
+  // NOTE sfc 会引起控制台大量报错，暂时该用正则
+  // const parseResult = vueParse(targetFileContent)
+  // const { script } = parseResult.descriptor
+  // if (!script) {
+  //   return
+  // }
+  // const scriptContent = script.content
+
+  const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/
+  const match = targetFileContent.match(scriptRegex)
+  if (!match || !match[1]) {
     return
   }
-  const scriptContent = script.content
+  const scriptContent = match[1].trim()
 
   const ast = babelParse(scriptContent, {
     sourceType: 'module',
