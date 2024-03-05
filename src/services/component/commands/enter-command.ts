@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { findComponentTargetPath, openTargetPathDocument } from '../utils/file'
+import { findComponentTargetPath, openTargetPathDocument } from '../utils/find-target-path'
 
 const handler = async () => {
   let editor = vscode.window.activeTextEditor
