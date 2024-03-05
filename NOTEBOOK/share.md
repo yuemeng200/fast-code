@@ -26,11 +26,16 @@
   - **Definition**
   - **Hover**
   - **Completion**
+  - ...
 - Context Menu
 - Data Storage
-- Display Notifications
-- Quick Pick
-- File Picker
+- Interaction
+  - createStatusBarItem
+  - showQuickPick
+  - showInputBox
+  - showInformationMessage
+  - File Picker
+  - ...
 - Output Channel
 - Theming
   - Color Theme
