@@ -2,7 +2,7 @@ import path from 'path'
 import { readFile } from 'fs/promises'
 import * as vscode from 'vscode'
 import fs from 'fs-extra'
-import { capitalize, kebabToPascal } from './common'
+import { capitalize, kebabToPascal } from '../../../utils/common'
 
 const NATIVE_TAGS = [
   'div',

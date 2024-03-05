@@ -23,3 +23,12 @@ export function kebabToPascal(statement: string) {
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+export function getConfigurationValue<T>(
+  key: string,
+  defaultValue: T,
+  extensionId: string = 'fast-code'
+): T {
+  const config = vscode.workspace.getConfiguration(extensionId)
+  return config.get<T>(key, defaultValue)
+}

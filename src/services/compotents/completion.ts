@@ -1,8 +1,7 @@
 import * as vscode from 'vscode'
 import fs from 'fs'
 import path from 'path'
-
-import { kebabToPascal } from '../../utils/common'
+import { kebabToPascal, capitalize } from '../../utils/common'
 
 /**
  *  Recursively find the target file in the current folder and its parent folder utill the rootPath
@@ -95,13 +94,17 @@ function registerComponentInVueFile(
   }
   const activeDocument = activeEditor.document
 
-  const importText = `import ${kebabToPascal(
-    componentName
-  )} from '${relativePath}'`
+  const componentPascalName = kebabToPascal(componentName)
+
+  const importText = `import ${componentPascalName} from ${relativePath}'`
   // if already registered, return
   const importTextRegex = new RegExp(importText)
+  const otherTextRegex = new RegExp(
+    `import\s+${capitalize(componentPascalName)}\s+from\s+'${relativePath}'`
+  )
+
   const fileText = activeDocument.getText()
-  if (importTextRegex.test(fileText)) {
+  if (importTextRegex.test(fileText) || otherTextRegex.test(fileText)) {
     return
   }
 
@@ -150,13 +153,11 @@ function registerComponentInVueFile(
 const provider: vscode.CompletionItemProvider = {
   provideCompletionItems(
     document: vscode.TextDocument,
-    position: vscode.Position,
-    token: vscode.CancellationToken,
-    context: vscode.CompletionContext
+    position: vscode.Position
   ) {
     const completionItems: vscode.CompletionItem[] = []
     const lineText = document.lineAt(position).text
-    if (!lineText.match(/\S*\<[a-zA-Z\-\d]+\S*/)) {
+    if (!lineText.match(/\<[a-zA-Z\-\d]+\x20$/)) {
       return
     }
 
@@ -180,10 +181,12 @@ const provider: vscode.CompletionItemProvider = {
     return completionItems
   },
   // FIX 并不是用户接收后触发
-  resolveCompletionItem(
-    item: vscode.CompletionItem,
-    token: vscode.CancellationToken
-  ) {
+  resolveCompletionItem(item: vscode.CompletionItem) {
+    const config = vscode.workspace.getConfiguration('fast-code')
+    const isEnable = config.get<boolean>('componentAutoRegistration', false)
+    if (!isEnable) {
+      return item
+    }
     const activeEditor = vscode.window.activeTextEditor
     if (!activeEditor) {
       return

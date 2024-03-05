@@ -4,7 +4,7 @@ import { parse as vueParse } from '@vue/compiler-sfc'
 import { parse as babelParse } from '@babel/parser'
 import traverse from '@babel/traverse'
 import babelGenerate from '@babel/generator'
-import { findComponentTargetPath } from '../../utils/file'
+import { findComponentTargetPath } from './utils/find-target-path'
 
 /**
  * Get props information from Vue SFC file

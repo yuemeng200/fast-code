@@ -5,6 +5,8 @@
 ### User interface
 
 - Editor Group
+  - Editor
+  - Webview
 - Side Bar
 - Activity Bar
 - Status Bar
@@ -13,7 +15,7 @@
 
 在 Visual Studio Code 中，"Workbench" 这个术语通常用来指代整个用户界面，包括编辑器窗口、侧边栏、活动栏、状态栏等各种界面元素。
 
-vscode 本身内置的很多功能也以拓展的形式存在, 如对 npm、markdown 等的支持, 可以看到[内置拓展列表](https://github.com/microsoft/vscode/tree/main/extensions)
+vscode 本身内置的很多功能也以拓展的形式存在, 如对 Git、npm、Markdown 等的支持, 可以看到[内置拓展列表](https://github.com/microsoft/vscode/tree/main/extensions)
 
 ### .vscode
 
@@ -76,6 +78,8 @@ keybindings.json 是 Visual Studio Code 中用于配置快捷键绑定（Keybind
 > vscode.workspace namespace
 
 - getConfiguration(plugin_id)
+
+`vscode.commands.executeCommand('workbench.action.reloadWindow')` 命令时，只会重新加载受影响的拓展，即包含被修改配置的拓展。其他未受影响的拓展将保持不变
 
 ## Data Storage
 
@@ -233,13 +237,12 @@ TreeDataProvider 已经监听了自己的 eventEmitter，只需要 fire 即可�
 
 ## Webview
 
-````js
-			const webviewPanel = vscode.window.createWebviewPanel(
-				'webviewId',
-				'WebView Title',
-				vscode.ViewColumn.One,
-			);
+```js
+const webviewPanel = vscode.window.createWebviewPanel(
+  'webviewId',
+  'WebView Title',
+  vscode.ViewColumn.One
+)
 
-			webviewPanel.webview.html = loadWebView('./webview.html');
-      ```
-````
+webviewPanel.webview.html = loadWebView('./webview.html')
+```
