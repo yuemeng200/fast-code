@@ -97,7 +97,7 @@ const handler = async (componentName: string, position: vscode.Position) => {
     position
   )
 
-  activeEditor.edit(editBuilder => {
+  await activeEditor.edit(editBuilder => {
     editBuilder.delete(deleteRange)
   })
 

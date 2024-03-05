@@ -1,5 +1,23 @@
 import * as vscode from 'vscode'
 
+function judgeInTemplate(
+  document: vscode.TextDocument,
+  position: vscode.Position
+) {
+  const fileText = document.getText()
+
+  const templateStartIndex = fileText.indexOf('<template>')
+  const templateEndIndex = fileText.indexOf('</template>')
+  return (
+    templateStartIndex !== -1 &&
+    templateEndIndex !== -1 &&
+    position.isBeforeOrEqual(document.positionAt(templateEndIndex)) &&
+    position.isAfterOrEqual(
+      document.positionAt(templateStartIndex + '<template>'.length)
+    )
+  )
+}
+
 const provider: vscode.CompletionItemProvider = {
   provideCompletionItems(
     document: vscode.TextDocument,
@@ -8,35 +26,32 @@ const provider: vscode.CompletionItemProvider = {
     const linePrefix = document
       .lineAt(position)
       .text.slice(0, position.character)
-    console.log('🚀 ~ linePrefix:', linePrefix)
 
-    if (linePrefix.endsWith('/')) {
-      const componentName = linePrefix.split('/').shift()?.trim()
-      if (!componentName) {
-        return []
-      }
-      const completionItem = new vscode.CompletionItem(
-        `<${componentName}></${componentName}>`,
-        vscode.CompletionItemKind.Snippet
-      )
-      completionItem.insertText = new vscode.SnippetString(
-        `<${componentName}>$0</${componentName}>`
-      )
-      completionItem.detail = `Vue component: ${componentName}`
-      completionItem.documentation = new vscode.MarkdownString(
-        `Inserts a Vue component: \`<${componentName}></${componentName}>\``
-      )
-      completionItem.filterText = componentName
-      completionItem.sortText = `a${componentName}`
-      completionItem.preselect = true
-      completionItem.command = {
-        title: 'Trigger Completed',
-        command: 'fast-code.registerComponent',
-        arguments: [componentName, position],
-      }
-      return [completionItem]
+    if (!judgeInTemplate(document, position) || !linePrefix.endsWith('/')) {
+      return []
     }
-    return []
+    const componentName = linePrefix.split('/').shift()?.trim()
+    console.log('🚀 ~ componentName:', componentName)
+    if (!componentName) {
+      return []
+    }
+    const completionItem = new vscode.CompletionItem(
+      `<${componentName}></${componentName}>`,
+      vscode.CompletionItemKind.Snippet
+    )
+    completionItem.insertText = new vscode.SnippetString(
+      `<${componentName}>$0</${componentName}>`
+    )
+    completionItem.detail = `Vue component: ${componentName}`
+    completionItem.documentation = new vscode.MarkdownString(
+      `Inserts a Vue component: \`<${componentName}></${componentName}>\``
+    )
+    completionItem.command = {
+      title: 'Trigger Completed',
+      command: 'fast-code.registerComponent',
+      arguments: [componentName, position],
+    }
+    return [completionItem]
   },
 }
 
