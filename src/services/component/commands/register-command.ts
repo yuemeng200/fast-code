@@ -84,12 +84,23 @@ function findComponentFile(targetFileName: string, currentFolderPath: string) {
   }
 }
 
-const handler = async (componentName: string) => {
-  console.log("🚀 ~ handler ~ componentName:", componentName)
+const handler = async (componentName: string, position: vscode.Position) => {
+  console.log('🚀 ~ handler ~ componentName:', componentName)
   const activeEditor = vscode.window.activeTextEditor
   if (!activeEditor) {
     return
   }
+
+  const deleteTextLength = componentName.length + 1
+  const deleteRange = new vscode.Range(
+    new vscode.Position(position.line, position.character - deleteTextLength),
+    position
+  )
+
+  activeEditor.edit(editBuilder => {
+    editBuilder.delete(deleteRange)
+  })
+
   const activeDocument = activeEditor.document
   const currentFilePath = activeDocument.uri.fsPath
 

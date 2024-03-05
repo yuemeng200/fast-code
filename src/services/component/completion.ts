@@ -20,7 +20,7 @@ const provider: vscode.CompletionItemProvider = {
         vscode.CompletionItemKind.Snippet
       )
       completionItem.insertText = new vscode.SnippetString(
-        `<${componentName}></${componentName}>`
+        `<${componentName}>$0</${componentName}>`
       )
       completionItem.detail = `Vue component: ${componentName}`
       completionItem.documentation = new vscode.MarkdownString(
@@ -32,7 +32,7 @@ const provider: vscode.CompletionItemProvider = {
       completionItem.command = {
         title: 'Trigger Completed',
         command: 'fast-code.registerComponent',
-        arguments: [componentName],
+        arguments: [componentName, position],
       }
       return [completionItem]
     }
