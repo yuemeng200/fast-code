@@ -1,9 +1,15 @@
 import * as vscode from 'vscode'
 
+/**
+ *  Judge if the current position is in the template tag
+ * @param document
+ * @param position
+ * @returns
+ */
 function judgeInTemplate(
   document: vscode.TextDocument,
   position: vscode.Position
-) {
+): boolean {
   const fileText = document.getText()
 
   const templateStartIndex = fileText.indexOf('<template>')
