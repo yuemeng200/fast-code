@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { getConfigurationValue } from '../../utils/common'
 
 /**
  *  Judge if the current position is in the template tag
@@ -32,8 +33,9 @@ const provider: vscode.CompletionItemProvider = {
     const linePrefix = document
       .lineAt(position)
       .text.slice(0, position.character)
+    const isInTemplate = judgeInTemplate(document, position)
 
-    if (!judgeInTemplate(document, position) || !linePrefix.endsWith('/')) {
+    if (!isInTemplate || !linePrefix.endsWith('/')) {
       return []
     }
     const componentName = linePrefix.split('/').shift()?.trim()
@@ -52,15 +54,18 @@ const provider: vscode.CompletionItemProvider = {
     completionItem.documentation = new vscode.MarkdownString(
       `Inserts a Vue component: \`<${componentName}></${componentName}>\``
     )
-    completionItem.command = {
-      title: 'Trigger Completed',
-      command: 'fast-code.registerComponent',
-      arguments: [componentName, position],
+    const isEnableAutoRegistration = getConfigurationValue<Boolean>('componentAutoRegistration', false)
+    if (isEnableAutoRegistration) {
+      completionItem.command = {
+        title: 'Trigger Completed',
+        command: 'fast-code.registerComponent',
+        arguments: [componentName, position],
+      }
     }
     return [completionItem]
   },
 }
 
 export default function componentCompletionProvider() {
-  return vscode.languages.registerCompletionItemProvider('vue', provider, '/')
+  return vscode.languages.registerCompletionItemProvider('vue', provider, '.', '/')
 }

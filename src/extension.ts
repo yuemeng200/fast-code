@@ -26,11 +26,8 @@ export function activate(context: vscode.ExtensionContext) {
   const provides = [
     componentDefinitionProvider(),
     componentPropsHoverProvider(),
+    componentCompletionProvider(),
   ]
-
-  if (getConfigurationValue<Boolean>('componentAutoRegistration', false)) {
-    provides.push(componentCompletionProvider())
-  }
 
   context.subscriptions.push(...provides)
 
