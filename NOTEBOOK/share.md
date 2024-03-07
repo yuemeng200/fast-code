@@ -58,3 +58,9 @@
 > Developer: Inspect Editor Tokens and Scopes
 > [TextMate grammars](https://macromates.com/manual/en/language_grammars)
 > TextMate provides list of common scopes that many themes target. In order to have your grammar as broadly supported as possible, try to build on existing scopes rather than defining new ones.
+
+### Command
+
+- Shortcuts
+- Command Palette
+- Program Invoke
