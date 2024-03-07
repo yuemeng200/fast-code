@@ -1,5 +1,4 @@
 import * as vscode from 'vscode'
-import { getConfigurationValue } from '../../utils/common'
 
 /**
  *  Judge if the current position is in the template tag
@@ -53,19 +52,16 @@ const provider: vscode.CompletionItemProvider = {
     completionItem.detail = `Vue component: ${componentName}`
     completionItem.documentation = new vscode.MarkdownString(
       `Inserts a Vue component: \`<${componentName}></${componentName}>\``
-    )
-    const isEnableAutoRegistration = getConfigurationValue<Boolean>('componentAutoRegistration', false)
-    if (isEnableAutoRegistration) {
-      completionItem.command = {
-        title: 'Trigger Completed',
-        command: 'fast-code.registerComponent',
-        arguments: [componentName, position],
-      }
+      )
+    completionItem.command = {
+      title: 'Trigger Completed',
+      command: 'fast-code.registerComponent',
+      arguments: [componentName, position],
     }
     return [completionItem]
   },
 }
 
 export default function componentCompletionProvider() {
-  return vscode.languages.registerCompletionItemProvider('vue', provider, '.', '/')
+  return vscode.languages.registerCompletionItemProvider('vue', provider, '/')
 }

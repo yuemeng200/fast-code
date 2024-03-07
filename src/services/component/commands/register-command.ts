@@ -1,7 +1,11 @@
 import * as vscode from 'vscode'
 import fs from 'fs'
 import path from 'path'
-import { kebabToPascal, capitalize } from '../../../utils/common'
+import {
+  kebabToPascal,
+  capitalize,
+  getConfigurationValue,
+} from '../../../utils/common'
 
 interface Position {
   row: number
@@ -100,6 +104,14 @@ const handler = async (componentName: string, position: vscode.Position) => {
   await activeEditor.edit(editBuilder => {
     editBuilder.delete(deleteRange)
   })
+
+  const isEnableAutoRegistration = getConfigurationValue<Boolean>(
+    'componentAutoRegistration',
+    false
+  )
+  if (!isEnableAutoRegistration) {
+    return
+  }
 
   const activeDocument = activeEditor.document
   const currentFilePath = activeDocument.uri.fsPath

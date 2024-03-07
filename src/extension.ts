@@ -30,17 +30,6 @@ export function activate(context: vscode.ExtensionContext) {
   ]
 
   context.subscriptions.push(...provides)
-
-  // Watch configuration change
-  vscode.workspace.onDidChangeConfiguration(event => {
-    const reloadKeys = ['fast-code.componentAutoRegistration']
-    if (reloadKeys.some(key => event.affectsConfiguration(key))) {
-      vscode.window.showInformationMessage(
-        'Fast-code configuration changed. Reloading extension...'
-      )
-      vscode.commands.executeCommand('workbench.action.reloadWindow')
-    }
-  })
 }
 
 export function deactivate() {}
