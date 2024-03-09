@@ -2,7 +2,7 @@
   "name": "fast-code",
   "displayName": "fast-code",
   "description": "🚀",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "engines": {
     "vscode": "^1.87.0"
   },
