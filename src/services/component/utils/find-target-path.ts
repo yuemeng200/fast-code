@@ -124,7 +124,7 @@ async function findComponentTargetPath(
   if (!tagNameMatch) {
     return
   }
-  const word = document.getText(document.getWordRangeAtPosition(position))
+  const word = tagNameMatch[1]
   const fileFullText = document.getText()
   if (tagNameMatch && !NATIVE_TAGS.includes(word)) {
     const componentName = kebabToPascal(word)
